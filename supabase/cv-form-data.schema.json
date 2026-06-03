@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CvFormData",
+  "description": "CV Builder form payload — matches React app and Supabase save_cv_from_json(p_data)",
+  "type": "object",
+  "required": ["sections", "personal", "summary", "experiences", "education", "skills", "projects", "articles", "blogs", "certifications", "languages", "volunteer", "awards", "references", "interests"],
+  "properties": {
+    "sections": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "boolean" },
+        "experience": { "type": "boolean" },
+        "education": { "type": "boolean" },
+        "skills": { "type": "boolean" },
+        "projects": { "type": "boolean" },
+        "articles": { "type": "boolean" },
+        "blogs": { "type": "boolean" },
+        "certifications": { "type": "boolean" },
+        "languages": { "type": "boolean" },
+        "volunteer": { "type": "boolean" },
+        "awards": { "type": "boolean" },
+        "references": { "type": "boolean" },
+        "interests": { "type": "boolean" }
+      }
+    },
+    "personal": {
+      "type": "object",
+      "required": ["firstName", "lastName", "email"],
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "country": { "type": "string" },
+        "linkedIn": { "type": "string" },
+        "website": { "type": "string" }
+      }
+    },
+    "summary": { "type": "string" },
+    "skills": { "type": "array", "items": { "type": "string" } },
+    "interests": { "type": "array", "items": { "type": "string" } },
+    "experiences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "company", "position", "startDate", "current", "description"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "company": { "type": "string" },
+          "position": { "type": "string" },
+          "location": { "type": "string" },
+          "startDate": { "type": "string", "pattern": "^\\d{4}-(0[1-9]|1[0-2])$" },
+          "endDate": { "type": "string" },
+          "current": { "type": "boolean" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "institution", "degree", "startDate", "current"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "institution": { "type": "string" },
+          "degree": { "type": "string" },
+          "field": { "type": "string" },
+          "startDate": { "type": "string" },
+          "endDate": { "type": "string" },
+          "current": { "type": "boolean" }
+        }
+      }
+    },
+    "projects": { "type": "array" },
+    "articles": { "type": "array" },
+    "blogs": { "type": "array" },
+    "certifications": { "type": "array" },
+    "languages": { "type": "array" },
+    "volunteer": { "type": "array" },
+    "awards": { "type": "array" },
+    "references": { "type": "array" }
+  }
+}

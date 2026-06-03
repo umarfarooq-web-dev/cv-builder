@@ -20,6 +20,8 @@ import { VolunteerSection } from './components/form/VolunteerSection'
 import { CvPreview } from './components/preview/CvPreview'
 import { defaultCvValues } from './constants/defaults'
 import { loadDraft, useDraftStorage } from './hooks/useDraftStorage'
+import { useAuth } from './hooks/useAuth'
+import { canSaveToSupabase, saveCvToSupabase } from './services/saveCvToSupabase'
 import { exportCvPdf } from './utils/exportCvPdf'
 import { cvSchema, type CvFormData } from './validation/cvSchema'
 
@@ -38,6 +40,9 @@ function App() {
     type: 'success' | 'error' | 'info'
     text: string
   } | null>(null)
+  const [isSavingToDb, setIsSavingToDb] = useState(false)
+  const supabaseConfigured = canSaveToSupabase()
+  const { user } = useAuth()
 
   const methods = useForm<CvFormData>({
     resolver: zodResolver(cvSchema),
@@ -90,6 +95,20 @@ function App() {
     }
   }, onInvalid)
 
+  const handleSaveToSupabase = methods.handleSubmit(async (data) => {
+    setIsSavingToDb(true)
+    const result = await saveCvToSupabase(data, user?.id)
+    setIsSavingToDb(false)
+    if (result.ok) {
+      setStatusMessage({
+        type: 'success',
+        text: `CV saved to Supabase (id: ${result.cvId}).`,
+      })
+    } else {
+      setStatusMessage({ type: 'error', text: result.message })
+    }
+  }, onInvalid)
+
   const handleSaveDraft = () => {
     const data = methods.getValues()
     const result = saveDraft(data)
@@ -113,6 +132,7 @@ function App() {
   return (
     <FormProvider {...methods}>
       <CvBuilderLayout
+        onAuthMessage={(text, type) => setStatusMessage({ text, type })}
         preview={<CvPreview data={previewData} />}
         form={
           <form
@@ -131,6 +151,12 @@ function App() {
                 role={statusMessage.type === 'error' ? 'alert' : 'status'}
               >
                 {statusMessage.text}
+              </p>
+            ) : null}
+            {!supabaseConfigured ? (
+              <p className="banner banner--info" role="status">
+                Supabase not configured — copy <code>.env.example</code> to <code>.env</code> and
+                run the SQL migration in your project.
               </p>
             ) : null}
 
@@ -197,6 +223,14 @@ function App() {
               </button>
               <button type="button" className="btn btn--secondary" onClick={handleDownloadPdf}>
                 Download PDF
+              </button>
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={handleSaveToSupabase}
+                disabled={!supabaseConfigured || isSavingToDb}
+              >
+                {isSavingToDb ? 'Saving…' : 'Save to Supabase'}
               </button>
               <button type="button" className="btn btn--ghost" onClick={handleSaveDraft}>
                 Save draft

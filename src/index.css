@@ -59,6 +59,69 @@ textarea {
 .app-header__inner {
   max-width: 1280px;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.auth-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.auth-panel--muted {
+  opacity: 0.85;
+}
+
+.auth-panel--form {
+  flex-direction: column;
+  align-items: stretch;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.75rem;
+  border-radius: 8px;
+  min-width: 260px;
+}
+
+.auth-panel__user {
+  color: #fff;
+}
+
+.auth-panel__tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.auth-tab--active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+}
+
+.auth-panel__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-panel__fields .field-input {
+  font-size: 0.875rem;
 }
 
 .app-title {
