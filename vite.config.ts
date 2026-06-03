@@ -5,6 +5,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/cv-builder/',
   build: {
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 2000
   }
 })
