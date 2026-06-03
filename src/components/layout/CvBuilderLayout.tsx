@@ -10,10 +10,7 @@ export function CvBuilderLayout({ form, preview }: CvBuilderLayoutProps) {
     <div className="app-shell">
       <header className="app-header">
         <div className="app-header__inner">
-          <div>
-            <p className="app-eyebrow">Professional CV Builder</p>
-            <h1 className="app-title">Craft your résumé</h1>
-          </div>
+          <h1 className="app-title">Craft your résumé</h1>
         </div>
       </header>
       <main className="app-main">

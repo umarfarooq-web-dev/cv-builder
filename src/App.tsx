@@ -20,6 +20,7 @@ import { VolunteerSection } from './components/form/VolunteerSection'
 import { CvPreview } from './components/preview/CvPreview'
 import { defaultCvValues } from './constants/defaults'
 import { loadDraft, useDraftStorage } from './hooks/useDraftStorage'
+import { exportCvPdf } from './utils/exportCvPdf'
 import { cvSchema, type CvFormData } from './validation/cvSchema'
 
 function scrollToFirstError() {
@@ -51,7 +52,7 @@ function App() {
   const onValid = () => {
     setStatusMessage({
       type: 'success',
-      text: 'Your CV passed validation. Use Print / PDF to export.',
+      text: 'Your CV passed validation. Use Download PDF to export.',
     })
   }
 
@@ -63,8 +64,30 @@ function App() {
     scrollToFirstError()
   }
 
-  const handlePrint = methods.handleSubmit(() => {
-    window.print()
+  const handleDownloadPdf = methods.handleSubmit(async (data) => {
+    try {
+      const ok = await exportCvPdf(
+        '.cv-preview',
+        data.personal.firstName,
+        data.personal.lastName,
+      )
+      if (!ok) {
+        setStatusMessage({
+          type: 'error',
+          text: 'Could not export PDF. Make sure the preview has loaded.',
+        })
+        return
+      }
+      setStatusMessage({
+        type: 'success',
+        text: 'PDF downloaded — no browser header or footer added.',
+      })
+    } catch {
+      setStatusMessage({
+        type: 'error',
+        text: 'PDF export failed. Please try again.',
+      })
+    }
   }, onInvalid)
 
   const handleSaveDraft = () => {
@@ -172,8 +195,8 @@ function App() {
               <button type="submit" className="btn btn--primary">
                 Validate CV
               </button>
-              <button type="button" className="btn btn--secondary" onClick={handlePrint}>
-                Print / PDF
+              <button type="button" className="btn btn--secondary" onClick={handleDownloadPdf}>
+                Download PDF
               </button>
               <button type="button" className="btn btn--ghost" onClick={handleSaveDraft}>
                 Save draft

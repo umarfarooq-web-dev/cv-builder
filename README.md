@@ -9,7 +9,7 @@ A React + TypeScript CV builder with live preview, Zod validation, and accessibl
 - **Live preview** shows only enabled sections
 - **Conditional validation** — only enabled sections are validated (Zod + React Hook Form)
 - **Save draft** to browser localStorage (merged with defaults on load for older drafts)
-- **Print / PDF** via the browser print dialog (use “Save as PDF” as the destination)
+- **Download PDF** — exports only your CV (no browser print header/footer with URL or date)
 
 ## Getting started
 

@@ -61,14 +61,6 @@ textarea {
   margin: 0 auto;
 }
 
-.app-eyebrow {
-  margin: 0 0 0.25rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.85;
-}
-
 .app-title {
   margin: 0;
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -536,38 +528,3 @@ select.field-input {
   white-space: pre-wrap;
 }
 
-/* Print */
-@media print {
-  body {
-    background: #fff;
-  }
-
-  .app-header,
-  .builder-form,
-  .preview-label,
-  .form-actions,
-  .banner {
-    display: none !important;
-  }
-
-  .app-main,
-  .builder-grid,
-  .builder-preview {
-    display: block;
-    max-width: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .preview-sticky {
-    position: static;
-  }
-
-  .cv-preview {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    max-width: 210mm;
-    margin: 0 auto;
-  }
-}
